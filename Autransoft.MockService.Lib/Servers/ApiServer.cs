@@ -6,12 +6,21 @@ using Microsoft.Extensions.Hosting;
 
 namespace Autransoft.MockService.Lib.Servers
 {
-    internal class ApiServer : IDisposable
+    ///<Summary>
+    /// 
+    ///</Summary>
+    public class ApiServer : IDisposable
     {
+        ///<Summary>
+        /// 
+        ///</Summary>
         public IHost Host { get; private set; }
 
         private HttpClient _httpClient;
 
+        ///<Summary>
+        /// 
+        ///</Summary>
         public HttpClient HttpClient 
         { 
             get
@@ -45,6 +54,9 @@ namespace Autransoft.MockService.Lib.Servers
             return task.Result;
         }
 
+        ///<Summary>
+        /// 
+        ///</Summary>
         public void Dispose()
         {
             HttpClientDispose();
