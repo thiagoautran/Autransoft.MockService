@@ -67,6 +67,8 @@
             "request": "launch",
             "preLaunchTask": "test",
             "program": "${workspaceFolder}/Autransoft.MockService.Lib.Test/bin/Debug/netcoreapp3.1/Autransoft.MockService.Lib.Test.dll",
+            "symbolSearchPath": "${workspaceFolder}/Autransoft.MockService.Lib.Test/bin/Debug/netcoreapp3.1/Autransoft.MockService.Lib.Test.pdb",
+            "additionalSOLibSearchPath": "${workspaceFolder}/Autransoft.MockService.Lib.Test/bin/Debug/netcoreapp3.1/Autransoft.MockService.Lib.Test.dll",
             "args": [],
             "cwd": "${workspaceFolder}/Autransoft.MockService.Lib.Test",
             "stopAtEntry": false,
