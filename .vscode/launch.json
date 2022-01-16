@@ -55,10 +55,23 @@
                 "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
             },
             "env": {
-                "ASPNETCORE_ENVIRONMENT": "IntegrationTest"
+                "ASPNETCORE_ENVIRONMENT": "Development"
             },
             "sourceFileMap": {
                 "/Views": "${workspaceFolder}/Views"
+            }
+        },
+        {
+            "name": "Run All Tests 3.1",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "test",
+            "program": "${workspaceFolder}/Autransoft.MockService.Lib.Test/bin/Debug/netcoreapp3.1/Autransoft.MockService.Lib.Test.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/Autransoft.MockService.Lib.Test",
+            "stopAtEntry": false,
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Test"
             }
         }
     ]

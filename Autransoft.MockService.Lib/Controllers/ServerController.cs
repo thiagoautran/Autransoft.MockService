@@ -4,12 +4,21 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Autransoft.Test.Lib.Controllers
 {
+    ///<Summary>
+    /// 
+    ///</Summary>
     public class ServerController : ControllerBase
     {
+        ///<Summary>
+        /// 
+        ///</Summary>
         public ServerController()
         {
         }
 
+        ///<Summary>
+        /// 
+        ///</Summary>
         [HttpGet]
         public async Task<ContentResult> GetAsync()
         {
