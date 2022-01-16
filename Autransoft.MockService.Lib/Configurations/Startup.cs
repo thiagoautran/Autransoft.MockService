@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
-namespace Autransoft.MockService.Lib
+namespace Autransoft.MockService.Lib.Configurations
 {
     ///<Summary>
     /// 
