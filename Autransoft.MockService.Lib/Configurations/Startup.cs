@@ -9,7 +9,7 @@ namespace Autransoft.MockService.Lib.Configurations
     ///<Summary>
     /// 
     ///</Summary>
-    public class Startup
+    internal class Startup
     {
         ///<Summary>
         /// 

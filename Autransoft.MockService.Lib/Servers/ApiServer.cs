@@ -1,5 +1,6 @@
-using System;
+using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using Autransoft.MockService.Lib.Configurations;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
@@ -10,59 +11,74 @@ namespace Autransoft.MockService.Lib.Servers
     ///<Summary>
     /// 
     ///</Summary>
-    public class ApiServer : IDisposable
+    internal class ApiServer
     {
-        ///<Summary>
-        /// 
-        ///</Summary>
-        public IHost Host { get; private set; }
-
+        private IHostBuilder _hostBuilder;
         private HttpClient _httpClient;
+        private TestServer _testServer;
+        private IHost _host;
 
         ///<Summary>
         /// 
         ///</Summary>
-        public HttpClient HttpClient 
-        { 
-            get
-            {
-                if (Host == null)
-                    Host = CreateHost();
+        public HttpClient HttpClient { get { return _httpClient; }}
 
-                if (_httpClient == null)
-                    _httpClient = Host.GetTestClient();
+        ///<Summary>
+        /// 
+        ///</Summary>
+        public TestServer TestServer { get { return _testServer; }}
 
-                return _httpClient;
-            }
-        }
-
-        private IHost CreateHost()
-        {
-            var hostBuilder = new HostBuilder()
+        ///<Summary>
+        /// 
+        ///</Summary>
+        public void CreateHost(string host, uint port) =>
+            _hostBuilder = new HostBuilder()
                 .ConfigureWebHost(webHostBuilder =>
                 {
-                    Environment.SetEnvironmentVariable("DOTNET_ENVIRONMENT", "IntegrationTest");
-                    Environment.SetEnvironmentVariable("ASPNETCORE_ENVIRONMENT", "IntegrationTest");
-                    webHostBuilder.UseEnvironment("IntegrationTest");
+                    webHostBuilder.UseEnvironment("AutransoftMockService");
 
                     webHostBuilder.UseTestServer();
                     webHostBuilder.UseStartup<Startup>();
+                    /*
+                    webHostBuilder.UseKestrel(options =>
+                    {
+                        options.Listen(IPAddress.Loopback, (int)port);
+                    });
+                    */
+                    //webHostBuilder.UseUrls($"{host}:{port}");
+                    /*
+                    webHostBuilder.UseKestrel();
+                    webHostBuilder.ConfigureKestrel((context, serverOptions) => 
+                    { 
+                        //var ipaddress = IPAddress.TryParse(host, out IPAddress aux) ? aux : IPAddress.Any;
+                        var ipaddress = IPAddress.Any;
+                        serverOptions.Listen(ipaddress, (int)port, listenOptions =>
+                        {
+                            listenOptions.UseConnectionLogging();
+                        });
+                    });
+                    */
                 });
 
-            var task = hostBuilder.StartAsync();
-            task.Wait();
-
-            return task.Result;
+        ///<Summary>
+        /// 
+        ///</Summary>
+        public async Task StartAsync()
+        {
+            _host = await _hostBuilder.StartAsync();
+            _httpClient = _host.GetTestClient();
+            _testServer = _host.GetTestServer();
         }
 
         ///<Summary>
         /// 
         ///</Summary>
-        public void Dispose()
+        public async Task StopAsync()
         {
             HttpClientDispose();
+            TestServerDispose();
 
-            HostDispose();
+            await HostDispose();
         }
 
         private void HttpClientDispose()
@@ -74,14 +90,21 @@ namespace Autransoft.MockService.Lib.Servers
             }
         }
 
-        private void HostDispose()
+        private void TestServerDispose()
         {
-            if(Host != null)
+            if(_testServer != null)
             {
-                var task = Host.StopAsync();
-                task.Wait();
+                _testServer.Dispose();
+                _testServer = null;
+            }
+        }
 
-                Host.Dispose();
+        private async Task HostDispose()
+        {
+            if(_host != null)
+            {
+                await _host.StopAsync();
+                _host.Dispose();
             }
         }
     }

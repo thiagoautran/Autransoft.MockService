@@ -8,13 +8,13 @@ namespace Autransoft.Test.Lib.Controllers
     /// 
     ///</Summary>
     [Produces("application/json")]
-    [Route("api/v1/test")]
-    public class ServerController : ControllerBase
+    [Route("autransoft/v1/mock/service")]
+    public class AutransoftServerController : ControllerBase
     {
         ///<Summary>
         /// 
         ///</Summary>
-        public ServerController()
+        public AutransoftServerController()
         {
         }
 
