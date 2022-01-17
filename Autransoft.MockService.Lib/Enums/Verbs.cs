@@ -1,0 +1,29 @@
+namespace Autransoft.MockService.Lib.Enums
+{
+    ///<Summary>
+    /// 
+    ///</Summary>
+    public enum Verbs
+    {
+        ///<Summary>
+        /// 
+        ///</Summary>
+        Get,
+        ///<Summary>
+        /// 
+        ///</Summary>
+        Post,
+        ///<Summary>
+        /// 
+        ///</Summary>
+        Put,
+        ///<Summary>
+        /// 
+        ///</Summary>
+        Delete,
+        ///<Summary>
+        /// 
+        ///</Summary>
+        Patch
+    }
+}
