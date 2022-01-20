@@ -17,22 +17,37 @@ namespace Autransoft.MockService.Lib.Test
             var mockService = new MockServer("192.168.0.1", 1080);
             await mockService.StartAsync();
 
-            var response = await mockService.HttpClient.GetAsync("autransoft/v1/mock/service");
+            mockService
+                .When
+                (
+                    new Request()
+                        .WithMethod(Verbs.Post)
+                        .WithPath("validate1")
+                        .WithHeader("Content-type", "application/json")
+                        .WithBody("{username: 'foo', password: 'bar'}"),
+                    new Response()
+                        .WithStatusCode(HttpStatusCode.OK)
+                        .WithHeader("Content-Type", "application/json; charset=utf-8")
+                        .WithHeader("Cache-Control", "public, max-age=86400")
+                        .WithBody("{ message: 'incorrect username and password combination'}")
+                        .WithDelay(new TimeSpan(0, 0, 1))
+                )
+                .When
+                (
+                    new Request()
+                        .WithMethod(Verbs.Post)
+                        .WithPath("validate2")
+                        .WithHeader("Content-type", "application/json")
+                        .WithBody("{username: 'foo', password: 'bar'}"),
+                    new Response()
+                        .WithStatusCode(HttpStatusCode.OK)
+                        .WithHeader("Content-Type", "application/json; charset=utf-8")
+                        .WithHeader("Cache-Control", "public, max-age=86400")
+                        .WithBody("{ message: 'incorrect username and password combination'}")
+                        .WithDelay(new TimeSpan(0, 0, 1))
+                );
 
-            mockService.When
-            (
-                new Request()
-                    .WithMethod(Verbs.Post)
-                    .WithPath("validate")
-                    .WithHeader("Content-type", "application/json")
-                    .WithBody("{username: 'foo', password: 'bar'}"),
-                new Response()
-                    .WithStatusCode(HttpStatusCode.OK)
-                    .WithHeader("Content-Type", "application/json; charset=utf-8")
-                    .WithHeader("Cache-Control", "public, max-age=86400")
-                    .WithBody("{ message: 'incorrect username and password combination'}")
-                    .WithDelay(new TimeSpan(0, 0, 1))
-            );
+            var response = await mockService.HttpClient.GetAsync("autransoft/v1/mock/service");
 
             await mockService.StopAsync();
 
