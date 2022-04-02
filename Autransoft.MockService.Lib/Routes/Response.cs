@@ -9,17 +9,19 @@ namespace Autransoft.MockService.Lib.Routes
     ///</Summary>
     public class Response
     {
-        private IDictionary<string, string> _headers;
-        private HttpStatusCode _httpStatusCode;
-        private TimeSpan _time;
-        private string _json;
+        internal IDictionary<string, string> Headers { get; private set; }
+        internal HttpStatusCode HttpStatusCode { get; private set; }
+        internal TimeSpan? Delay { get; private set; }
+        internal string Body { get; private set; }
 
         ///<Summary>
         /// 
         ///</Summary>
         public Response()
         {
-            _headers = new Dictionary<string, string>();
+            Headers = new Dictionary<string, string>();
+            Body = string.Empty;
+            Delay = null;
         }
 
         ///<Summary>
@@ -27,7 +29,7 @@ namespace Autransoft.MockService.Lib.Routes
         ///</Summary>
         public Response WithStatusCode(HttpStatusCode httpStatusCode)
         {
-            _httpStatusCode = httpStatusCode;
+            HttpStatusCode = httpStatusCode;
             return this;
         }
 
@@ -36,7 +38,7 @@ namespace Autransoft.MockService.Lib.Routes
         ///</Summary>
         public Response WithHeader(string name, string value)
         {
-            _headers.Add(name, value);
+            Headers.Add(name, value);
             return this;
         }
 
@@ -45,7 +47,7 @@ namespace Autransoft.MockService.Lib.Routes
         ///</Summary>
         public Response WithBody(string json)
         {
-            _json = json;
+            Body = json;
             return this;
         }
 
@@ -54,7 +56,7 @@ namespace Autransoft.MockService.Lib.Routes
         ///</Summary>
         public Response WithDelay(TimeSpan time)
         {
-            _time = time;
+            Delay = time;
             return this;
         }
     }

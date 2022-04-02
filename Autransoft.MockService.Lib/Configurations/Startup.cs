@@ -1,8 +1,8 @@
+using Autransoft.MockService.Lib.Middlewares;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 
 namespace Autransoft.MockService.Lib.Configurations
 {
@@ -19,34 +19,27 @@ namespace Autransoft.MockService.Lib.Configurations
         ///<Summary>
         /// 
         ///</Summary>
-        public Startup(IConfiguration configuration)
-        {
+        public Startup(IConfiguration configuration) =>
             Configuration = configuration;
-        }
 
         ///<Summary>
         /// 
         ///</Summary>
-        public void ConfigureServices(IServiceCollection services)
-        {
+        public void ConfigureServices(IServiceCollection services) => 
             services.AddControllers();
-        }
 
         ///<Summary>
         /// 
         ///</Summary>
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
             app.UseAuthorization();
+
+            app.UseMiddleware<RequestMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

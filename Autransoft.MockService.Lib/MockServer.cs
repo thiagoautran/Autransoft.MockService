@@ -3,6 +3,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Autransoft.MockService.Lib.Routes;
 using Autransoft.MockService.Lib.Servers;
+using Autransoft.MockService.Lib.Services;
 using Microsoft.AspNetCore.TestHost;
 
 namespace Autransoft.MockService.Lib
@@ -13,7 +14,7 @@ namespace Autransoft.MockService.Lib
     public class MockServer
     {
         private ApiServer _apiServer;
-        private List<Route> _route;
+        private RouterService _routerService;
 
         ///<Summary>
         /// 
@@ -31,9 +32,9 @@ namespace Autransoft.MockService.Lib
         public MockServer(string host, uint port)
         {
             _apiServer = new ApiServer();
-            _apiServer.CreateHost(host, port);
+            _apiServer.CreateHostBuilder();
 
-            _route = new List<Route>();
+            _routerService = new RouterService();
         }
 
         ///<Summary>
@@ -52,6 +53,7 @@ namespace Autransoft.MockService.Lib
         public async Task StopAsync()
         {
             await _apiServer.StopAsync();
+            _routerService.Clean();
         }
 
         ///<Summary>
@@ -59,7 +61,7 @@ namespace Autransoft.MockService.Lib
         ///</Summary>
         public MockServer When(Request request, Response response)
         {
-            _route.Add(new Route(request, response));
+            _routerService.Add(request, response);
             return this;
         }
     }

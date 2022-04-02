@@ -5,21 +5,21 @@ namespace Autransoft.MockService.Lib.Routes
     ///</Summary>
     public class Route
     {
-        private Response _response;
-        private Callback _callback;
-        private Request _request;
-        private Forward _forward;
+        internal Response Response { get; private set; }
+        internal Callback Callback { get; private set; }
+        internal Request Request { get; private set; }
+        internal Forward Forward { get; private set; }
 
         ///<Summary>
         /// 
         ///</Summary>
         public Route(Request request, Response response)
         {
-            _response = response;
-            _request = request;
-            
-            _callback = null;
-            _forward = null;
+            Response = response;
+            Request = request;
+
+            Callback = null;
+            Forward = null;
         }
 
         ///<Summary>
@@ -27,11 +27,11 @@ namespace Autransoft.MockService.Lib.Routes
         ///</Summary>
         public Route(Request request, Forward forward)
         {
-            _request = request;
-            _forward = forward;
+            Request = request;
+            Forward = forward;
 
-            _callback = null;
-            _response = null;
+            Callback = null;
+            Response = null;
         }
 
         ///<Summary>
@@ -39,11 +39,11 @@ namespace Autransoft.MockService.Lib.Routes
         ///</Summary>
         public Route(Request request, Callback callback)
         {
-            _callback = callback;
-            _request = request;
-            
-            _response = null;
-            _forward = null;
+            Callback = callback;
+            Request = request;
+
+            Response = null;
+            Forward = null;
         }
     }
 }
