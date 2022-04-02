@@ -1,33 +1,26 @@
-using System;
-using System.Net;
-using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Autransoft.MockService.Lib.Routes;
 using Autransoft.MockService.Lib.Enums;
+using Autransoft.MockService.Lib.Routes;
 using FluentAssertions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace Autransoft.MockService.Lib.Test
 {
     [TestClass]
     public class HappyDay
     {
-        internal static MockServer MockServer;
-
-        public HappyDay() => MockServer = new MockServer("192.168.0.1", 1080);
-
         [TestInitialize]
-        public async Task ClassInitialize() => await MockServer.StartAsync();
-
-        [TestCleanup]
-        public async Task ClassCleanup() => await MockServer.StopAsync();
+        public void TestInitialize() => TestConfiguration.MockServer.Clean();
 
         [TestMethod]
         public async Task Get()
         {
-            MockServer
+            TestConfiguration.MockServer
                 .When
                 (
                     new Request()
@@ -40,7 +33,7 @@ namespace Autransoft.MockService.Lib.Test
                         .WithBody("{ message: 'incorrect username and password combination'}")
                 );
 
-            var response = await MockServer.HttpClient.GetAsync("api/v1/mockservice");
+            var response = await TestConfiguration.MockServer.HttpClient.GetAsync("api/v1/mockservice");
 
             response.StatusCode.Should().Be(HttpStatusCode.OK);
 
@@ -54,7 +47,7 @@ namespace Autransoft.MockService.Lib.Test
         [TestMethod]
         public async Task Delay()
         {
-            MockServer
+            TestConfiguration.MockServer
                 .When
                 (
                     new Request()
@@ -66,7 +59,7 @@ namespace Autransoft.MockService.Lib.Test
                 );
 
             var start = DateTime.Now;
-            var response = await MockServer.HttpClient.GetAsync("api/v1/mockservice");
+            var response = await TestConfiguration.MockServer.HttpClient.GetAsync("api/v1/mockservice");
             var timeSpan = DateTime.Now - start;
 
             timeSpan.Seconds.Should().Be(20);
@@ -79,7 +72,7 @@ namespace Autransoft.MockService.Lib.Test
             var obj = new { UserName = "foo", Password = "bar" };
             var json = JsonSerializer.Serialize(obj);
 
-            MockServer
+            TestConfiguration.MockServer
                 .When
                 (
                     new Request()
@@ -93,7 +86,7 @@ namespace Autransoft.MockService.Lib.Test
                         .WithBody("{ message: 'incorrect username and password combination'}")
                 );
 
-            var response = await MockServer.HttpClient.PostAsync
+            var response = await TestConfiguration.MockServer.HttpClient.PostAsync
             (
                 "api/v1/mockservice", 
                 new StringContent
