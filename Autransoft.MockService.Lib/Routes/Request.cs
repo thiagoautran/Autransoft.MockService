@@ -13,7 +13,7 @@ namespace Autransoft.MockService.Lib.Routes
         internal IEnumerable<string> Query { get; private set; }
         internal string Path { get; private set; }
         internal string Body { get; private set; }
-        internal Verbs Verb { get; private set; }
+        internal Methods Verb { get; private set; }
 
         ///<Summary>
         /// 
@@ -30,7 +30,7 @@ namespace Autransoft.MockService.Lib.Routes
         ///<Summary>
         /// 
         ///</Summary>
-        public Request WithMethod(Verbs verb)
+        public Request WithMethod(Methods verb)
         {
             Verb = verb;
             return this;

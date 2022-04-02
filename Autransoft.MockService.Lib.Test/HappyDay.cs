@@ -24,7 +24,7 @@ namespace Autransoft.MockService.Lib.Test
                 .When
                 (
                     new Request()
-                        .WithMethod(Verbs.Get)
+                        .WithMethod(Methods.Get)
                         .WithPath("api/v1/mockservice"),
                     new Response()
                         .WithStatusCode(HttpStatusCode.OK)
@@ -51,7 +51,7 @@ namespace Autransoft.MockService.Lib.Test
                 .When
                 (
                     new Request()
-                        .WithMethod(Verbs.Get)
+                        .WithMethod(Methods.Get)
                         .WithPath("api/v1/mockservice"),
                     new Response()
                         .WithStatusCode(HttpStatusCode.GatewayTimeout)
@@ -76,7 +76,7 @@ namespace Autransoft.MockService.Lib.Test
                 .When
                 (
                     new Request()
-                        .WithMethod(Verbs.Post)
+                        .WithMethod(Methods.Post)
                         .WithPath("api/v1/mockservice")
                         .WithBody(json),
                     new Response()
@@ -104,6 +104,14 @@ namespace Autransoft.MockService.Lib.Test
 
             Assert.IsTrue(response.Headers.TryGetValues("Content-Type", out IEnumerable<string> values1) || response.Content.Headers.TryGetValues("Content-Type", out IEnumerable<string> values2));
             Assert.IsTrue(response.Headers.TryGetValues("Cache-Control", out IEnumerable<string> values3) || response.Content.Headers.TryGetValues("Cache-Control", out IEnumerable<string> values4));
+        }
+
+        [TestMethod]
+        public async Task NotFound()
+        {
+            var response = await TestConfiguration.MockServer.HttpClient.GetAsync("api/v1/mockservice");
+
+            response.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
     }
 }

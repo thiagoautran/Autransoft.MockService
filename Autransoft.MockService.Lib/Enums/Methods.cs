@@ -3,7 +3,7 @@ namespace Autransoft.MockService.Lib.Enums
     ///<Summary>
     /// 
     ///</Summary>
-    public enum Verbs
+    public enum Methods
     {
         ///<Summary>
         /// 

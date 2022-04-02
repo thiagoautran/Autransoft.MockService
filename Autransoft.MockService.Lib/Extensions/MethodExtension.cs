@@ -2,27 +2,27 @@
 
 namespace Autransoft.MockService.Lib.Extensions
 {
-    internal static class VerbExtension
+    internal static class MethodExtension
     {
-        internal static string Method(this Verbs verb)
+        internal static string Method(this Methods verb)
         {
             var method = string.Empty;
 
             switch(verb)
             {
-                case Verbs.Delete:
+                case Methods.Delete:
                     method = "Delete";
                     break;
-                case Verbs.Post:
+                case Methods.Post:
                     method = "Post";
                     break;
-                case Verbs.Put:
+                case Methods.Put:
                     method = "Put";
                     break;
-                case Verbs.Get:
+                case Methods.Get:
                     method = "Get";
                     break;
-                case Verbs.Patch:
+                case Methods.Patch:
                     method = "Patch";
                     break;
             }

@@ -1,12 +1,10 @@
-using System.Collections.Generic;
-using System.Net;
-using System.Net.Http;
-using System.Threading.Tasks;
-using Autransoft.MockService.Lib.Configurations;
-using Autransoft.MockService.Lib.Routes;
+using Autransoft.MockService.Lib.Middlewares;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.TestHost;
 using Microsoft.Extensions.Hosting;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace Autransoft.MockService.Lib.Servers
 {
@@ -41,7 +39,7 @@ namespace Autransoft.MockService.Lib.Servers
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseTestServer();
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder.Configure(app => app.UseMiddleware<RequestMiddleware>());
                 });
 
         ///<Summary>
