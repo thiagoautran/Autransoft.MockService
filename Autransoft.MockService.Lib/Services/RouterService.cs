@@ -19,7 +19,7 @@ namespace Autransoft.MockService.Lib.Services
         public void Clean() => _repository.Clean();
 
         /// <summary>
-        /// 
+        /// Adiciona nova rota
         /// </summary>
         /// <param name="request"></param>
         /// <param name="response"></param>
